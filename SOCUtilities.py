@@ -2,7 +2,6 @@
 """
 SOC Utilities & Complementary Tools Script
 Script de utilidades complementarias para SOC
-Autor: Imegami
 """
 
 import os
