@@ -1,10 +1,3 @@
-#!/usr/bin/env python3
-"""
-Script Avanzado de Demostración para Pentesting
-Autor: ZYANETRALYS
-Propósito: Demostración educativa para entrevista de pentesting
-"""
-
 import os
 import sys
 import time
