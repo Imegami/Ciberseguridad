@@ -90,33 +90,95 @@ COMMONLY USED NSE SCRIPT CATEGORIES
 - **safe**        → scripts considered safe to run
 
 ───────────────────────────────────────────────────────────────
-EXAMPLES  
+NSE SCRIPTS ESSENTIALS  
 ───────────────────────────────────────────────────────────────
-1. Quick SYN scan on target subnet with service detection:  
-`nmap -sS -sV 192.168.1.0/24`
+a) Recon & Discovery  
+- `http-title` — Detect page titles, quick target identification.  
+- `ssl-cert` — Extract SSL/TLS cert info for fingerprinting.  
+- `dns-brute` — Rapid subdomain enumeration.  
+- `snmp-info` — Collect basic SNMP info.  
+- `ftp-anon` — Detect anonymous FTP access.
 
-2. Full TCP connect scan on single host, all ports, verbose:  
-`nmap -sT -p- -v 10.0.0.5`
+b) Vulnerability Detection  
+- `http-vuln-cve2017-5638` — Apache Struts RCE (critical).  
+- `ssl-heartbleed` — Heartbleed SSL vulnerability detection.  
+- `smb-vuln-ms17-010` — EternalBlue SMB vuln detection.  
+- `ftp-vuln-cve2010-4221` — FTP server vuln detection.  
+- `http-slowloris` — Slow HTTP DoS attack detection.
 
-3. UDP scan combined with TCP SYN scan, OS detection, and default scripts:  
-`nmap -sS -sU -O -sC target.com`
+c) Bruteforce & Auth Testing  
+- `ftp-brute` — FTP brute force.  
+- `ssh-brute` — SSH brute force.  
+- `http-brute` — HTTP Auth brute force.  
+- `smtp-brute` — SMTP brute force.
 
-4. Aggressive scan with all scripts on single IP:  
-`nmap -A 172.16.0.10`
+d) Exploitation & Post-Exploitation (Controlled Use)  
+- `http-shellshock` — Shellshock exploit detection.  
+- `smb-double-pulsar-backdoor` — SMB backdoor detection.
 
-5. Paranoid timing, stealth scan on specific ports:  
-`nmap -sS -p 22,80,443 -T0 192.168.100.25`
+───────────────────────────────────────────────────────────────
+RUNNING NSE SCRIPTS  
+───────────────────────────────────────────────────────────────
+Basic syntax:  
+`nmap --script=<scriptname> <target>`
 
-6. Scan and output all formats for later analysis:  
-`nmap -sS -p 1-1000 -oA reconnaissance_scan target.com`
+Example running multiple script categories (default + vuln):  
+`nmap -sV --script=default,vuln 10.10.10.5`
+
+Running specific script:  
+`nmap --script=http-vuln-cve2017-5638 192.168.1.100`
+
+───────────────────────────────────────────────────────────────
+CUSTOM SCRIPT SELECTION FOR TACTICAL SCANS  
+───────────────────────────────────────────────────────────────
+| MISSION TYPE      | SCRIPT CATEGORY             | COMMAND EXAMPLE                   |
+|-------------------|-----------------------------|---------------------------------|
+| Quick Recon       | discovery, default           | `--script=discovery,default`     |
+| Vulnerability Hunt| vuln                        | `--script=vuln`                  |
+| Brute Force       | brute                       | `--script=brute`                 |
+| Full Ops          | default, vuln, brute        | `--script=default,vuln,brute`    |
+
+───────────────────────────────────────────────────────────────
+EVASION TECHNIQUES TO BYPASS IDS/IPS  
+───────────────────────────────────────────────────────────────
+a) Timing and Speed  
+- Use `-T0` or `-T1` for ultra stealth scans to avoid detection.  
+- Adjust speed with `--scan-delay <time>` and `--max-rate <pps>`.
+
+b) Fragmentation  
+- Fragment TCP packets:  
+`nmap -f <target>`
+
+c) Decoy Scan  
+- Use decoys to confuse defenses:  
+`nmap -D RND:10 <target>`
+
+d) Source Port Spoofing  
+- Spoof source port to bypass simple filters:  
+`nmap --source-port 53 <target>`
+
+e) Randomize Target Scan Order  
+- Avoid predictable patterns:  
+`nmap --randomize-hosts <targets>`
+
+f) Idle Zombie Scan (Spoof Scan)  
+- Hide scan origin through another host:  
+`nmap -sI <zombie_host> <target>`
+
+───────────────────────────────────────────────────────────────
+INTEGRATION TIPS  
+───────────────────────────────────────────────────────────────
+- Combine Nmap with Python or Bash scripts for post-processing.  
+- Use XML output (`-oX`) for feeding SIEM or analysis platforms.  
+- Integrate with Metasploit or pentesting frameworks to automate exploitation after detection.
 
 ───────────────────────────────────────────────────────────────
 PERFORMANCE TIPS  
 ───────────────────────────────────────────────────────────────
-- Use `--max-retries <num>` to limit retries for faster scans.  
-- Use `--host-timeout <time>` to abort slow hosts.  
-- Use `--min-rate <pps>` or `--max-rate <pps>` to control packet sending rate.  
-- Use `--exclude <targets>` to avoid scanning friendly IPs.  
+- Use `--max-retries <num>` to reduce scan retries and speed up.  
+- Use `--host-timeout <time>` to skip slow hosts.  
+- Control packet rate with `--min-rate` and `--max-rate`.  
+- Use `--exclude <targets>` to skip friendly IPs.
 
 ───────────────────────────────────────────────────────────────
 FINAL COMMANDMENT:  
