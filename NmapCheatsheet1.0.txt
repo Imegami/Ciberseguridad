@@ -1,0 +1,124 @@
+┌───────────────────────────────────────────────────────────────┐
+│                   ZYA'S NMAP CHEATSHEET                       │
+│                      TACTICAL GUIDE                           │
+└───────────────────────────────────────────────────────────────┘
+
+MISSION:  
+Execute precision network reconnaissance, vulnerability discovery,  
+and stealthy target enumeration to gather actionable intelligence  
+without detection or footprint.
+
+───────────────────────────────────────────────────────────────
+QUICK DEPLOYMENT PROTOCOL  
+───────────────────────────────────────────────────────────────
+1️⃣ Select target(s) — IPs, ranges, subnets, or hostnames.  
+2️⃣ Define scan type and timing according to operational security needs.  
+3️⃣ Execute scan with output formatting for easy parsing/reporting.  
+4️⃣ Analyze results immediately; use scripts for vulnerability detection.  
+5️⃣ Correlate findings with intel sources; plan next moves.
+
+───────────────────────────────────────────────────────────────
+PRIORITY SCAN TYPES & FLAGS  
+───────────────────────────────────────────────────────────────
+⚡ SYN SCAN (stealthy, fast):  
+`nmap -sS <target>`  
+*Half-open scan; stealthier than full connect.*
+
+⚡ CONNECT SCAN (full TCP handshake):  
+`nmap -sT <target>`  
+*Used when SYN scan is not allowed.*
+
+⚡ UDP SCAN (discover UDP services):  
+`nmap -sU <target>`  
+*Slower; UDP can reveal different services.*
+
+⚡ SERVICE & VERSION DETECTION:  
+`nmap -sV <target>`  
+*Identify service versions, important for vuln assessment.*
+
+⚡ OS DETECTION:  
+`nmap -O <target>`  
+*Fingerprint remote OS.*
+
+⚡ SCRIPT SCAN (NSE - Nmap Scripting Engine):  
+`nmap -sC <target>`  
+*Run default scripts for common checks.*
+
+⚡ FULL SCRIPT SCAN (all scripts):  
+`nmap -p- --script=default,vuln <target>`  
+*Run default plus vulnerability scripts.*
+
+⚡ AGGRESSIVE SCAN (combines multiple scans + traceroute):  
+`nmap -A <target>`  
+*Comprehensive but noisy.*
+
+───────────────────────────────────────────────────────────────
+TIMING & STEALTH OPTIONS  
+───────────────────────────────────────────────────────────────
+`-T0` to `-T5` — Timing templates from paranoid (slowest) to insane (fastest):  
+- `-T0` paranoid: ultra slow, stealthy (best for IDS evasion).  
+- `-T3` default: balanced speed and stealth.  
+- `-T4` aggressive: faster, more detectable.  
+- `-T5` insane: fastest, most detectable.
+
+───────────────────────────────────────────────────────────────
+PORT SELECTION  
+───────────────────────────────────────────────────────────────
+`-p <port>`           → scan specific port(s), e.g. `-p 22,80,443`  
+`-p-`                 → scan all 65535 TCP ports  
+`--top-ports <num>`   → scan top <num> ports by frequency  
+
+───────────────────────────────────────────────────────────────
+OUTPUT FORMATS  
+───────────────────────────────────────────────────────────────
+`-oN <file>`          → Normal output (human-readable)  
+`-oX <file>`          → XML output (for tools integration)  
+`-oG <file>`          → Grepable output (easy to parse)  
+`-oA <basename>`      → All three formats simultaneously  
+
+───────────────────────────────────────────────────────────────
+COMMONLY USED NSE SCRIPT CATEGORIES  
+───────────────────────────────────────────────────────────────
+- **default**     → common useful scripts  
+- **discovery**   → host and service discovery  
+- **intrusive**   → potential to disrupt targets (use with caution)  
+- **vuln**        → vulnerability detection  
+- **exploit**     → exploit attempts (use only in controlled env)  
+- **malware**     → malware detection  
+- **auth**        → authentication bypass or checks  
+- **brute**       → brute-force attacks  
+- **safe**        → scripts considered safe to run
+
+───────────────────────────────────────────────────────────────
+EXAMPLES  
+───────────────────────────────────────────────────────────────
+1. Quick SYN scan on target subnet with service detection:  
+`nmap -sS -sV 192.168.1.0/24`
+
+2. Full TCP connect scan on single host, all ports, verbose:  
+`nmap -sT -p- -v 10.0.0.5`
+
+3. UDP scan combined with TCP SYN scan, OS detection, and default scripts:  
+`nmap -sS -sU -O -sC target.com`
+
+4. Aggressive scan with all scripts on single IP:  
+`nmap -A 172.16.0.10`
+
+5. Paranoid timing, stealth scan on specific ports:  
+`nmap -sS -p 22,80,443 -T0 192.168.100.25`
+
+6. Scan and output all formats for later analysis:  
+`nmap -sS -p 1-1000 -oA reconnaissance_scan target.com`
+
+───────────────────────────────────────────────────────────────
+PERFORMANCE TIPS  
+───────────────────────────────────────────────────────────────
+- Use `--max-retries <num>` to limit retries for faster scans.  
+- Use `--host-timeout <time>` to abort slow hosts.  
+- Use `--min-rate <pps>` or `--max-rate <pps>` to control packet sending rate.  
+- Use `--exclude <targets>` to avoid scanning friendly IPs.  
+
+───────────────────────────────────────────────────────────────
+FINAL COMMANDMENT:  
+“Scan with precision, leave no trace, know your target inside out.”  
+───────────────────────────────────────────────────────────────
