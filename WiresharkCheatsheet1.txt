@@ -1,0 +1,101 @@
+┌───────────────────────────────────────────────────────────────┐
+│                  ZYA'S WIRESHARK CHEATSHEET                   │
+│                     MILITARY TACTICAL FIELD GUIDE             │
+└───────────────────────────────────────────────────────────────┘
+
+⚡ MISSION:  
+Rapid interception, triage, and extraction of critical network intelligence  
+in hostile or monitored environments. No noise. Maximum efficiency.
+
+───────────────────────────────────────────────────────────────
+🎯 QUICK DEPLOYMENT PROTOCOL  
+───────────────────────────────────────────────────────────────
+1️⃣ Select proper capture interface (Ethernet / Wi-Fi). Enable promiscuous mode, monitor mode for Wi-Fi if available.  
+2️⃣ Apply capture filters when target specifics are known (e.g., `host 10.0.0.5`).  
+3️⃣ Launch capture session (Ctrl+E).  
+4️⃣ Use color-coded highlights to identify anomalies immediately.  
+5️⃣ Apply display filters to isolate suspicious packets; follow TCP/UDP streams.  
+6️⃣ Export relevant objects; mark critical packets with Ctrl+M for reporting.  
+7️⃣ Save capture file `.pcapng` promptly; document findings clearly; terminate capture.
+
+───────────────────────────────────────────────────────────────
+🛠️ PRIORITY FILTERS FOR RAPID ANALYSIS  
+───────────────────────────────────────────────────────────────
+🟢 SYN SCAN DETECTION:  
+   `tcp.flags.syn==1 && tcp.flags.ack==0`  
+   *Detect stealthy TCP SYN port scans.*
+
+🟢 ARP SPOOFING ALERTS:  
+   `arp.duplicate-address-detected`  
+   *Identify potential MITM attacks through ARP conflicts.*
+
+🟢 CREDENTIALS IN CLEARTEXT:  
+   `frame contains "password"`  
+   `http.authbasic`  
+   `ftp.request.command == "USER" || ftp.request.command == "PASS"`  
+   *Locate leaked passwords in HTTP Basic Auth, FTP logins, or payload.*
+
+🟢 DNS DATA EXFILTRATION:  
+   `udp.port==53 && frame.len > 200`  
+   *Spot unusually large DNS queries for covert data transfer.*
+
+🟢 COMMAND & CONTROL TRAFFIC:  
+   `tcp.port==4444 || tcp.port==8080`  
+   `http.user_agent contains "curl"`  
+   *Detect RAT or C2 channels, especially HTTP tunneling.*
+
+🟢 ICMP TUNNELING:  
+   `icmp && data.len > 100`  
+   *Uncover covert channels using ICMP payloads.*
+
+🟢 SENSITIVE POST REQUESTS:  
+   `http.request.method == "POST"`  
+   *Focus on potential credential or data submissions.*
+
+🟢 TCP ANOMALIES & ATTACK SIGNS:  
+   `tcp.analysis.retransmission`  
+   `tcp.flags.reset==1`  
+   *Identify packet retransmissions (possible DoS) and forced connection resets.*
+
+🟢 UNENCRYPTED PROTOCOLS:  
+   `tcp.port==23 || tcp.port==21 || tcp.port==80`  
+   *Target Telnet, FTP, HTTP traffic where data flows in plaintext.*
+
+🟢 EXFILTRATION / UNAUTHORIZED TRAFFIC:  
+   `!(ip.src==192.168.0.0/16) && !(ip.dst==192.168.0.0/16)`  
+   *Flag traffic moving outside the local network.*
+
+───────────────────────────────────────────────────────────────
+🎨 COLOR CODING FOR INSTANT RECOGNITION  
+───────────────────────────────────────────────────────────────
+🔴 RED     → SYN packets without ACK → Port Scanning / Connection attempts  
+🟠 ORANGE  → Retransmissions → Network issues or DoS attempts  
+🟢 GREEN   → TCP RST packets → Forced connection terminations  
+🔵 BLUE    → HTTP/FTP traffic → Potential credentials leakage  
+⚪ GREY    → ICMP traffic → Discovery and tunneling activity  
+
+───────────────────────────────────────────────────────────────
+⚡ ESSENTIAL HOTKEYS FOR SPEED  
+───────────────────────────────────────────────────────────────
+Ctrl+E      → Start / Stop capture  
+Ctrl+Shift+F→ Apply or edit advanced display filters  
+Ctrl+M      → Mark packets for report  
+Ctrl+H      → Highlight strings or regex (e.g., "password")  
+Alt+→ / ←   → Navigate through TCP/UDP streams  
+Ctrl+F      → Search within captured data  
+
+───────────────────────────────────────────────────────────────
+📌 TACTICAL NOTES & BEST PRACTICES  
+───────────────────────────────────────────────────────────────
+- Capture short, segmented sessions instead of long dumps.  
+- Mark evidence on the fly; do not rely on memory recall.  
+- Analyze packet sequences and patterns, not isolated packets.  
+- Use “Statistics → Endpoints” to rapidly map communication pairs.  
+- Maintain profiles tailored for Pentesting, SOC, and Malware hunting.  
+- Cross-validate findings with system logs and other intel sources.  
+- Regularly update filters and color rules to adapt to emerging threats.
+
+───────────────────────────────────────────────────────────────
+📢 FINAL COMMANDMENT:  
+“Don’t just watch packets—decode their story and strike decisively.”  
+───────────────────────────────────────────────────────────────
