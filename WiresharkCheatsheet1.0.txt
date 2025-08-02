@@ -3,12 +3,12 @@
 │                    TACTICAL FIELD GUIDE                       │
 └───────────────────────────────────────────────────────────────┘
 
-⚡ MISSION:  
+MISSION:  
 Rapid interception, triage, and extraction of critical network intelligence  
 in hostile or monitored environments. No noise. Maximum efficiency.
 
 ───────────────────────────────────────────────────────────────
-🎯 QUICK DEPLOYMENT PROTOCOL  
+QUICK DEPLOYMENT PROTOCOL  
 ───────────────────────────────────────────────────────────────
 1️⃣ Select proper capture interface (Ethernet / Wi-Fi). Enable promiscuous mode, monitor mode for Wi-Fi if available.  
 2️⃣ Apply capture filters when target specifics are known (e.g., `host 10.0.0.5`).  
@@ -19,7 +19,7 @@ in hostile or monitored environments. No noise. Maximum efficiency.
 7️⃣ Save capture file `.pcapng` promptly; document findings clearly; terminate capture.
 
 ───────────────────────────────────────────────────────────────
-🛠️ PRIORITY FILTERS FOR RAPID ANALYSIS  
+PRIORITY FILTERS
 ───────────────────────────────────────────────────────────────
 🟢 SYN SCAN DETECTION:  
    `tcp.flags.syn==1 && tcp.flags.ack==0`  
@@ -66,7 +66,7 @@ in hostile or monitored environments. No noise. Maximum efficiency.
    *Flag traffic moving outside the local network.*
 
 ───────────────────────────────────────────────────────────────
-🎨 COLOR CODING FOR INSTANT RECOGNITION  
+COLOR CODING
 ───────────────────────────────────────────────────────────────
 🔴 RED     → SYN packets without ACK → Port Scanning / Connection attempts  
 🟠 ORANGE  → Retransmissions → Network issues or DoS attempts  
@@ -75,7 +75,7 @@ in hostile or monitored environments. No noise. Maximum efficiency.
 ⚪ GREY    → ICMP traffic → Discovery and tunneling activity  
 
 ───────────────────────────────────────────────────────────────
-⚡ ESSENTIAL HOTKEYS FOR SPEED  
+ESSENTIAL HOTKEYS  
 ───────────────────────────────────────────────────────────────
 Ctrl+E      → Start / Stop capture  
 Ctrl+Shift+F→ Apply or edit advanced display filters  
@@ -85,7 +85,7 @@ Alt+→ / ←   → Navigate through TCP/UDP streams
 Ctrl+F      → Search within captured data  
 
 ───────────────────────────────────────────────────────────────
-📌 TACTICAL NOTES & BEST PRACTICES  
+TACTICAL NOTES 
 ───────────────────────────────────────────────────────────────
 - Capture short, segmented sessions instead of long dumps.  
 - Mark evidence on the fly; do not rely on memory recall.  
@@ -96,6 +96,6 @@ Ctrl+F      → Search within captured data
 - Regularly update filters and color rules to adapt to emerging threats.
 
 ───────────────────────────────────────────────────────────────
-📢 FINAL COMMANDMENT:  
+FINAL COMMANDMENT:  
 “Don’t just watch packets—decode their story and strike decisively.”  
 ───────────────────────────────────────────────────────────────
