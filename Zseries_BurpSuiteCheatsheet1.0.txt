@@ -1,0 +1,94 @@
+┌───────────────────────────────────────────────────────────────┐
+│                  ZYA'S BURP SUITE CHEATSHEET                  │
+│                      TACTICAL GUIDE                           │
+└───────────────────────────────────────────────────────────────┘
+
+MISSION:
+Intercept, modify, and exploit web traffic; find and exploit vulnerabilities in web applications.
+
+───────────────────────────────
+QUICK DEPLOYMENT PROTOCOL
+───────────────────────────────
+1️⃣ Configure browser proxy settings to route through Burp Suite.
+2️⃣ Start intercepting HTTP/HTTPS traffic, modify requests on the fly.
+3️⃣ Use Scanner for automated vulnerability detection (Pro).
+4️⃣ Use Intruder for brute-force, fuzzing, and parameter manipulation.
+5️⃣ Analyze Repeater for manual request replay and modification.
+6️⃣ Use Decoder and Comparer to analyze and transform data.
+
+───────────────────────────────
+KEY TOOLS & TABS
+───────────────────────────────
+
+Proxy: Intercept & modify live traffic.
+
+Repeater: Manual request crafting & replay.
+
+Intruder: Automated attacks (brute-force, fuzzing).
+
+Scanner: Automated vulnerability discovery (Pro).
+
+Decoder: Convert encoded data formats.
+
+Comparer: Compare requests/responses for changes.
+
+Extender: Add custom plugins and scripts.
+
+───────────────────────────────
+PROXY SETTINGS ESSENTIALS
+───────────────────────────────
+
+Set browser proxy to 127.0.0.1:8080 (default).
+
+Import Burp CA cert into browser for HTTPS interception.
+
+Use Target scope to limit capture to relevant domains.
+
+───────────────────────────────
+INTRUDER ATTACK MODES
+───────────────────────────────
+
+Sniper: Single payload position (precision).
+
+Battering Ram: Same payload across all positions.
+
+Pitchfork: Multiple payloads across positions.
+
+Cluster Bomb: Multiple payloads combinatorial.
+
+───────────────────────────────
+COMMON PAYLOADS FOR INTRUDER
+───────────────────────────────
+
+SQL injection payloads (e.g. ' OR '1'='1' --).
+
+XSS payloads (<script>alert(1)</script>).
+
+Fuzzing payloads for input validation testing.
+
+Authentication bypass attempts.
+
+───────────────────────────────
+SCANNER BEST PRACTICES
+───────────────────────────────
+
+Use in-scope only to avoid collateral damage.
+
+Review and tune scan speed and intensity.
+
+Verify manually all findings; avoid false positives.
+
+Exploit confirmed vulnerabilities carefully.
+
+───────────────────────────────
+EXTENDER & AUTOMATION
+───────────────────────────────
+
+Install extensions like ActiveScan++, Logger++.
+
+Write custom Burp extensions with Python/JavaScript.
+
+───────────────────────────────
+FINAL COMMANDMENT:
+“Master the web, bend it to your will, leave no flaw unchecked.”
+───────────────────────────────
