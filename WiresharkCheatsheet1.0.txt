@@ -1,6 +1,6 @@
 ┌───────────────────────────────────────────────────────────────┐
 │                  ZYA'S WIRESHARK CHEATSHEET                   │
-│                     MILITARY TACTICAL FIELD GUIDE             │
+│                    TACTICAL FIELD GUIDE                       │
 └───────────────────────────────────────────────────────────────┘
 
 ⚡ MISSION:  
