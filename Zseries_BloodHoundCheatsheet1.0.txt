@@ -3,11 +3,6 @@
 │                      TACTICAL GUIDE                           │
 └───────────────────────────────────────────────────────────────┘
 
-┌─────────────────────────────────────────────┐
-│           ZYA'S BLOODHOUND CHEATSHEET          │
-│          ACTIVE DIRECTORY ATTACK INTEL         │
-└─────────────────────────────────────────────┘
-
 MISSION:
 Map, analyze and exploit Active Directory relationships and permissions to identify attack paths,
 escalate privileges, and gain domain dominance stealthily and efficiently.
