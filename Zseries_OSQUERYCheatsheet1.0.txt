@@ -4,64 +4,82 @@
 └───────────────────────────────────────────────────────────────┘
 
 MISSION:
-Deploy OSQuery to collect real-time system state and detect anomalies on endpoints.
+Deploy OSQuery agents across endpoints to collect real-time system state,
+detect anomalies, and enable proactive endpoint defense and forensics.
 
 ───────────────────────────────
 QUICK DEPLOYMENT PROTOCOL
 ───────────────────────────────
-1️⃣ Deploy osquery agent on target endpoints (Windows, Linux, Mac).
-2️⃣ Use SQL-like queries to extract system info.
-3️⃣ Schedule queries for continuous monitoring.
-4️⃣ Feed results to SIEM or central logging.
-5️⃣ Analyze anomalies and trigger alerts.
+1️⃣ Deploy osquery agent on target endpoints (Windows, Linux, macOS).
+2️⃣ Use SQL-like queries to extract detailed system, process, and network info.
+3️⃣ Schedule queries for continuous monitoring and historical data.
+4️⃣ Forward query results to centralized SIEM, ELK, or logging platforms.
+5️⃣ Analyze anomalies, unusual behavior, and trigger alerts for incident response.
 
 ───────────────────────────────
 ESSENTIAL TABLES
 ───────────────────────────────
+- **processes**  
+  Active running processes with PID, path, cmdline, parent PID.
 
-processes → Active running processes.
+- **users**  
+  Logged in users, user accounts, and sessions.
 
-users → Logged in users and sessions.
+- **listening_ports**  
+  Network ports currently open and listening.
 
-listening_ports → Open ports.
+- **crontab / scheduled_tasks**  
+  Scheduled jobs and persistence mechanisms.
 
-crontab / scheduled_tasks → Scheduled jobs.
+- **file_events**  
+  File system modifications and access events.
 
-file_events → File modifications.
+- **logged_in_users**  
+  Real-time current user sessions.
 
-logged_in_users → Current user sessions.
+- **os_version**  
+  OS build, version, platform info.
 
-os_version → OS details.
-
-autoruns → Persistence mechanisms.
+- **autoruns**  
+  Common persistence points (startup items, services, etc).
 
 ───────────────────────────────
 SAMPLE QUERIES
 ───────────────────────────────
+- Detect suspicious PowerShell processes:  
+  SELECT name, pid, path, cmdline FROM processes WHERE name LIKE '%powershell%';
 
-Detect suspicious processes:
-SELECT name, pid, path FROM processes WHERE name LIKE '%powershell%';
+- Find unusual open ports (exclude common safe ports):  
+  SELECT * FROM listening_ports WHERE port NOT IN (22, 80, 443, 3389);
 
-Find unusual open ports:
-SELECT * FROM listening_ports WHERE port NOT IN (22,80,443,3389);
+- Detect recently created user accounts (UID > 1000 for Linux):  
+  SELECT * FROM users WHERE uid > 1000;
 
-Detect new user accounts:
-SELECT * FROM users WHERE uid > 1000;
+- Check autoruns persistence points in temp directories:  
+  SELECT * FROM autoruns WHERE path LIKE '%temp%';
 
-Check autoruns persistence points:
-SELECT * FROM autoruns WHERE path LIKE '%temp%';
+- Identify unexpected scheduled tasks (Windows):  
+  SELECT * FROM scheduled_tasks WHERE task_name NOT LIKE '%Microsoft%';
 
 ───────────────────────────────
-DEPLOYMENT TIPS
+DEPLOYMENT & MONITORING TIPS
 ───────────────────────────────
+- Schedule frequent queries on critical tables for real-time visibility.  
+- Correlate osquery data with YARA scans for malware and IOC detection.  
+- Integrate with SIEM for alerting on anomalies or suspicious patterns.  
+- Use osquery packs for modular query sets and policy enforcement.  
+- Harden osquery configuration and secure communication channels.
 
-Schedule frequent queries for high-risk data.
-
-Use centralized logging for correlation.
-
-Combine with YARA scans for malware detection.
+───────────────────────────────
+ADVANCED STRATEGIC INSIGHTS
+───────────────────────────────
+- Combine process and network data to detect suspicious lateral movement.  
+- Use file_events and autoruns to discover persistence mechanisms and rootkits.  
+- Monitor logged_in_users and session changes for unauthorized access.  
+- Query os_version and patch levels for vulnerability management.  
+- Leverage custom SQL queries to tailor detection to your threat model.
 
 ───────────────────────────────
 FINAL COMMANDMENT:
-“Know your endpoints as your frontline fortress.”
+“Know your endpoints as your frontline fortress; visibility is control.”
 ───────────────────────────────
