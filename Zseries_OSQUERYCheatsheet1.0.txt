@@ -1,0 +1,67 @@
+┌───────────────────────────────────────────────────────────────┐
+│                  ZYA'S OSQUERY CHEATSHEET                     │
+│                      TACTICAL GUIDE                           │
+└───────────────────────────────────────────────────────────────┘
+
+MISSION:
+Deploy OSQuery to collect real-time system state and detect anomalies on endpoints.
+
+───────────────────────────────
+QUICK DEPLOYMENT PROTOCOL
+───────────────────────────────
+1️⃣ Deploy osquery agent on target endpoints (Windows, Linux, Mac).
+2️⃣ Use SQL-like queries to extract system info.
+3️⃣ Schedule queries for continuous monitoring.
+4️⃣ Feed results to SIEM or central logging.
+5️⃣ Analyze anomalies and trigger alerts.
+
+───────────────────────────────
+ESSENTIAL TABLES
+───────────────────────────────
+
+processes → Active running processes.
+
+users → Logged in users and sessions.
+
+listening_ports → Open ports.
+
+crontab / scheduled_tasks → Scheduled jobs.
+
+file_events → File modifications.
+
+logged_in_users → Current user sessions.
+
+os_version → OS details.
+
+autoruns → Persistence mechanisms.
+
+───────────────────────────────
+SAMPLE QUERIES
+───────────────────────────────
+
+Detect suspicious processes:
+SELECT name, pid, path FROM processes WHERE name LIKE '%powershell%';
+
+Find unusual open ports:
+SELECT * FROM listening_ports WHERE port NOT IN (22,80,443,3389);
+
+Detect new user accounts:
+SELECT * FROM users WHERE uid > 1000;
+
+Check autoruns persistence points:
+SELECT * FROM autoruns WHERE path LIKE '%temp%';
+
+───────────────────────────────
+DEPLOYMENT TIPS
+───────────────────────────────
+
+Schedule frequent queries for high-risk data.
+
+Use centralized logging for correlation.
+
+Combine with YARA scans for malware detection.
+
+───────────────────────────────
+FINAL COMMANDMENT:
+“Know your endpoints as your frontline fortress.”
+───────────────────────────────
