@@ -1,0 +1,103 @@
+┌───────────────────────────────────────────────────────────────┐
+│                   ZYA'S NMAP CHEATSHEET                       │
+│                      TACTICAL GUIDE                           │
+└───────────────────────────────────────────────────────────────┘
+
+MISSION:
+Execute precision exploitation, post-exploitation, and lateral movement with stealth and efficiency. Use Metasploit Framework as your tactical weapons platform.
+
+───────────────────────────────
+QUICK DEPLOYMENT PROTOCOL
+───────────────────────────────
+1️⃣ Identify target and reconnaissance info (ports, services).
+2️⃣ Select appropriate exploit & payload matching target environment.
+3️⃣ Configure payload parameters (LHOST, LPORT, etc.).
+4️⃣ Launch exploit, maintain stealth and persistence.
+5️⃣ Escalate privileges, perform lateral movement or data extraction.
+
+───────────────────────────────
+CORE MODULE TYPES
+───────────────────────────────
+
+exploit/ → Attack vectors to compromise target.
+
+payload/ → Code executed on target (shell, meterpreter).
+
+auxiliary/ → Recon, scanning, brute-force, DoS tools.
+
+post/ → Post-exploitation tasks: enumeration, persistence.
+
+encoder/ → Obfuscate payloads to evade detection.
+
+nop/ → No-operation padding for exploit reliability.
+
+───────────────────────────────
+COMMON PAYLOADS
+───────────────────────────────
+
+windows/meterpreter/reverse_tcp → Full interactive shell, reverse connection.
+
+linux/x86/meterpreter/reverse_tcp → Linux Meterpreter reverse shell.
+
+cmd/unix/reverse_bash → Bash reverse shell (lightweight).
+
+python/meterpreter/reverse_tcp → Meterpreter payload in Python.
+
+───────────────────────────────
+ESSENTIAL COMMANDS
+───────────────────────────────
+
+search <name> → Find modules (e.g. search smb).
+
+use <module> → Select module.
+
+show options → Display configurable options.
+
+set <option> <value> → Set parameters (e.g. set RHOSTS 10.0.0.1).
+
+exploit or run → Launch attack.
+
+sessions -l → List active sessions.
+
+sessions -i <id> → Interact with session.
+
+background → Background session to keep it alive.
+
+───────────────────────────────
+TACTICAL MODULES TO KNOW
+───────────────────────────────
+
+SMB: exploit/windows/smb/ms17_010_eternalblue
+
+FTP brute force: auxiliary/scanner/ftp/ftp_login
+
+SSH brute force: auxiliary/scanner/ssh/ssh_login
+
+HTTP exploit: exploit/multi/http/apache_mod_cgi_bash_env_exec
+
+Post-exploitation: post/multi/manage/autoroute (pivoting)
+
+───────────────────────────────
+EVASION TACTICS
+───────────────────────────────
+
+Use encoders: set ENCODER x86/shikata_ga_nai
+
+Adjust payload staging: set StageEncoding x
+
+Use custom payloads (e.g., msfvenom) with encryption/obfuscation.
+
+Employ slow, timed exploitation to avoid IDS.
+
+───────────────────────────────
+AUTOMATION & SCRIPTING
+───────────────────────────────
+
+Use resource scripts (.rc) to automate sequences.
+
+Integrate with external tools via API and RPC.
+
+───────────────────────────────
+FINAL COMMANDMENT:
+“Strike hard, stay hidden, and control every inch of the network.”
+───────────────────────────────
