@@ -4,62 +4,112 @@
 └───────────────────────────────────────────────────────────────┘
 
 MISSION:
-Recover passwords by cracking hashes; audit password strength and detect weak credentials.
+Recover passwords by cracking hashes; audit password strength and detect weak credentials
+to strengthen security postures and exploit vulnerable authentication.
 
 ───────────────────────────────
 QUICK DEPLOYMENT PROTOCOL
 ───────────────────────────────
-1️⃣ Collect hashes from compromised systems or password dumps.
-2️⃣ Identify hash types (john --list=formats).
-3️⃣ Use wordlists and rulesets to perform cracking.
-4️⃣ Analyze results and iterate with different strategies.
-5️⃣ Report weak passwords and recommend remediation.
+1️⃣ Collect password hashes from compromised endpoints, dumps, or memory (Mimikatz, etc).
+2️⃣ Identify hash formats precisely using:
+   `john --list=formats`
+3️⃣ Prepare or acquire appropriate wordlists tuned for the target (rockyou, custom, generated).
+4️⃣ Execute cracking runs combining wordlists and mangling rules to maximize coverage.
+5️⃣ Iterate with incremental brute force or mask attacks for complex passwords.
+6️⃣ Extract and analyze cracked passwords with:
+   `john --show <hashfile>`
+7️⃣ Report findings with risk prioritization and remediation recommendations.
 
 ───────────────────────────────
-COMMON COMMANDS
+COMMON COMMANDS & MODES
 ───────────────────────────────
+- Basic cracking with default wordlist and rules:  
+  `john <hashfile>`
 
-john <hashfile> → Start cracking with default wordlist.
+- Use specific wordlist:  
+  `john --wordlist=<file> <hashfile>`
 
-john --wordlist=<file> <hashfile> → Use custom wordlist.
+- Apply rulesets for mutations (default or custom):  
+  `john --wordlist=<file> --rules <hashfile>`
 
-john --rules <hashfile> → Apply mangling rules for mutations.
+- Incremental brute force mode (exhaustive, slow):  
+  `john --incremental <hashfile>`
 
-john --incremental <hashfile> → Brute force mode.
+- Mask mode for targeted brute force (custom charset & length):  
+  `john --mask='?l?d?d?d?d' <hashfile>`
 
-john --show <hashfile> → Show cracked passwords.
+- Show cracked passwords:  
+  `john --show <hashfile>`
 
-───────────────────────────────
-HASH TYPES EXAMPLES
-───────────────────────────────
+- List supported hash formats:  
+  `john --list=formats`
 
-MD5, SHA1, SHA256
-
-NTLM (Windows)
-
-bcrypt, PBKDF2, scrypt (slow hashes)
-
-DES, LM (legacy Windows hashes)
-
-───────────────────────────────
-WORDLIST SOURCES
-───────────────────────────────
-
-rockyou.txt (standard)
-
-Custom target-specific lists
-
-Generated with crunch, cewl
+- Use session management to pause/resume cracking:  
+  `john --session=<name> <hashfile>`
 
 ───────────────────────────────
-PERFORMANCE OPTIMIZATION
+HASH TYPES & IDENTIFICATION
 ───────────────────────────────
+- Common Hash Formats:  
+  MD5, SHA1, SHA256, SHA512  
+  NTLM (Windows LAN Manager)  
+  bcrypt, PBKDF2, scrypt (slow, salted hashes)  
+  DES, LM (legacy Windows)  
+  WPA/WPA2 PSK (wireless)  
+  MySQL, Oracle, MSSQL hashes  
 
-Use GPU acceleration with john --format=... --device=... (with jumbo build).
+- Use `file` or `hashid` tools for quick hash type detection.
 
-Prioritize wordlist + rules before brute forcing.
+───────────────────────────────
+WORDLIST SOURCES & GENERATION
+───────────────────────────────
+- Standard Lists:  
+  rockyou.txt, crackstation.txt, SecLists.
 
-Distribute cracking across multiple machines.
+- Custom Targeted Lists:  
+  Generated with `crunch`, `cewl` (target-specific crawling).  
+  Use leak-based corpuses and known password dumps.
+
+- Rule-based Mutation:  
+  Use built-in or custom rule sets to create variations.
+
+───────────────────────────────
+PERFORMANCE OPTIMIZATION & ACCELERATION
+───────────────────────────────
+- Use Jumbo John build for GPU acceleration:  
+  `john --format=nt-opencl --device=0 <hashfile>`
+
+- Prefer wordlist + rules before incremental brute forcing to save time.
+
+- Distribute cracking across multiple systems with session sharing.
+
+- Limit charset in mask mode to focus attack vectors efficiently.
+
+───────────────────────────────
+ADVANCED TACTICS & STRATEGIES
+───────────────────────────────
+- Combine with **hashcat** for GPU-accelerated cracking on complex hashes.
+
+- Use incremental mode for passwords beyond wordlist scope.
+
+- Prioritize cracking hashes from privileged accounts first (admins, service accounts).
+
+- Exploit cracked credentials for lateral movement and privilege escalation.
+
+- Regularly update wordlists with fresh leaks and intel.
+
+───────────────────────────────
+DEFENSIVE COUNTERMEASURES (IF YOU WERE DEFENDING)
+───────────────────────────────
+- Enforce strong password policies and complexity requirements.
+
+- Use slow hash algorithms (bcrypt, scrypt) with salt and high cost.
+
+- Implement multi-factor authentication (MFA) to mitigate compromised passwords.
+
+- Monitor for unusual authentication patterns and brute force attempts.
+
+- Limit hash exposure; protect hashes with encryption and access control.
 
 ───────────────────────────────
 FINAL COMMANDMENT:
