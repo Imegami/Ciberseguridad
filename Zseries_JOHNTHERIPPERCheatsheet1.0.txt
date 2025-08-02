@@ -1,0 +1,67 @@
+┌───────────────────────────────────────────────────────────────┐
+│             ZYA'S JOHN THE RIPPER CHEATSHEET                  │
+│                      TACTICAL GUIDE                           │
+└───────────────────────────────────────────────────────────────┘
+
+MISSION:
+Recover passwords by cracking hashes; audit password strength and detect weak credentials.
+
+───────────────────────────────
+QUICK DEPLOYMENT PROTOCOL
+───────────────────────────────
+1️⃣ Collect hashes from compromised systems or password dumps.
+2️⃣ Identify hash types (john --list=formats).
+3️⃣ Use wordlists and rulesets to perform cracking.
+4️⃣ Analyze results and iterate with different strategies.
+5️⃣ Report weak passwords and recommend remediation.
+
+───────────────────────────────
+COMMON COMMANDS
+───────────────────────────────
+
+john <hashfile> → Start cracking with default wordlist.
+
+john --wordlist=<file> <hashfile> → Use custom wordlist.
+
+john --rules <hashfile> → Apply mangling rules for mutations.
+
+john --incremental <hashfile> → Brute force mode.
+
+john --show <hashfile> → Show cracked passwords.
+
+───────────────────────────────
+HASH TYPES EXAMPLES
+───────────────────────────────
+
+MD5, SHA1, SHA256
+
+NTLM (Windows)
+
+bcrypt, PBKDF2, scrypt (slow hashes)
+
+DES, LM (legacy Windows hashes)
+
+───────────────────────────────
+WORDLIST SOURCES
+───────────────────────────────
+
+rockyou.txt (standard)
+
+Custom target-specific lists
+
+Generated with crunch, cewl
+
+───────────────────────────────
+PERFORMANCE OPTIMIZATION
+───────────────────────────────
+
+Use GPU acceleration with john --format=... --device=... (with jumbo build).
+
+Prioritize wordlist + rules before brute forcing.
+
+Distribute cracking across multiple machines.
+
+───────────────────────────────
+FINAL COMMANDMENT:
+“Break the weak, fortify the strong, never trust the untested.”
+───────────────────────────────
